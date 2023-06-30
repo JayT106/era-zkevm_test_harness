@@ -83,7 +83,7 @@ pub fn padding_aggregations(
     use crate::franklin_crypto::plonk::circuit::bigint::split_into_limbs;
     let rns_params = get_prefered_rns_params();
 
-    let crs_mons = circuit_testing::get_trusted_setup::<Bn256>(1 << 26);
+    let crs_mons = circuit_testing::get_trusted_setup::<Bn256>(1 << 22);
     let mut p1 = crs_mons.g1_bases[1];
     use sync_vm::franklin_crypto::bellman::CurveAffine;
     p1.negate();
