@@ -12,17 +12,17 @@ use crate::sync_vm::traits::GenericHasher;
 use crate::witness::oracle::VmWitnessOracle;
 use crate::witness::postprocessing::{L1_MESSAGES_MERKLIZER_OUTPUT_LINEAR_HASH, USE_BLAKE2S_EXTRA_TABLES};
 
-fn ensure_cycle_within_2_26_limit(cycles: usize, gates: usize, additive: usize) -> usize {
-    let two_power_26: usize = 1 << 26;
-    if (cycles * gates + additive) < two_power_26 {
+fn ensure_cycle_within_2_22_limit(cycles: usize, gates: usize, additive: usize) -> usize {
+    let two_power_22: usize = 1 << 22;
+    if (cycles * gates + additive) < two_power_22 {
         println!("cycles*gates+additive : {}", cycles * gates + additive);
         return cycles;
     }
     println!(
-        "two_power_26 - additive / gates: {}",
-        (two_power_26 - additive) / gates
+        "two_power_22 - additive / gates: {}",
+        (two_power_22 - additive) / gates
     );
-    (two_power_26 - additive) / gates
+    (two_power_22 - additive) / gates
 }
 
 fn compute_inner<
@@ -35,7 +35,7 @@ fn compute_inner<
     config_fn: F,
     optional_circuit_limit_generation_mode_fn: Option<fn(usize) -> usize>,
 ) -> usize {
-    let max = 1 << 26;
+    let max = 1 << 22;
 
     let typical_sizes = vec![16, 32];
     let mut gates = vec![];
@@ -80,7 +80,7 @@ fn compute_inner<
     println!("O(1) costs = {}", additive);
 
     let mut cycles = (max - additive) / per_round_gates;
-    cycles = ensure_cycle_within_2_26_limit(cycles, per_round_gates + 2, additive);
+    cycles = ensure_cycle_within_2_22_limit(cycles, per_round_gates + 2, additive);
     match optional_circuit_limit_generation_mode_fn {
         None => {}
         Some(circuit_limit_generation_mode_fn) => {

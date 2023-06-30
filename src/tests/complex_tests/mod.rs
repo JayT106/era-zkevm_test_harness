@@ -611,7 +611,7 @@ fn run_and_try_create_witness_inner(mut test_artifact: TestArtifact, cycle_limit
     // we need any points that have e(p1, g2)*e(p2, g2^x) == 0, so we basically can use two first elements
     // of the trusted setup
     let padding_aggregations = {
-        let crs_mons = circuit_testing::get_trusted_setup::<Bn256>(1 << 26);
+        let crs_mons = circuit_testing::get_trusted_setup::<Bn256>(1 << 22);
         let mut p1 = crs_mons.g1_bases[1];
         use sync_vm::franklin_crypto::bellman::CurveAffine;
         p1.negate();
